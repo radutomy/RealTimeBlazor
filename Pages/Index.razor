@@ -1,0 +1,58 @@
+﻿@page "/"
+@using realtimeblazor.Services
+@using realtimeblazor.Data
+@inject CryptoService CryptoService
+@implements IDisposable
+
+<h1>@_btcPrice</h1>
+<h1>@_ethPrice</h1>
+<h1>@_xrpPrice</h1>
+<h1>@_bchPrice</h1>
+<h1>@_ltcPrice</h1>
+
+@code {
+
+	private decimal _btcPrice;
+	private decimal _ethPrice;
+	private decimal _xrpPrice;
+	private decimal _ltcPrice;
+	private decimal _bchPrice;
+
+	protected override void OnInitialized()
+	{
+		CryptoService.OnPriceUpdate += PriceUpdate;
+	}
+
+	private async void PriceUpdate(ICrypto crypto)
+	{
+		switch (crypto.Ticker)
+		{
+			case Ticker.BTC:
+				_btcPrice = crypto.Price;
+				break;
+
+			case Ticker.ETH:
+				_ethPrice = crypto.Price;
+				break;
+
+			case Ticker.XRP:
+				_xrpPrice = crypto.Price;
+				break;
+
+			case Ticker.BCH:
+				_bchPrice = crypto.Price;
+				break;
+
+			case Ticker.LTC:
+				_ltcPrice = crypto.Price;
+				break;
+		}
+
+		await InvokeAsync(StateHasChanged);
+	}
+
+	public void Dispose()
+	{
+		CryptoService.OnPriceUpdate -= PriceUpdate;
+	}
+}

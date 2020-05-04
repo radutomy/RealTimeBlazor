@@ -1,0 +1,19 @@
+﻿@inherits LayoutComponentBase
+
+<MatAppBarContainer>
+    <MatAppBar Fixed="true">
+        <MatAppBarRow>
+            <MatAppBarSection>
+                <MatIconButton Icon="menu"></MatIconButton>
+                <MatAppBarTitle>Real Time Blazor Demo</MatAppBarTitle>
+            </MatAppBarSection>
+            <MatAppBarSection Align="@MatAppBarSectionAlign.End">
+                <MatIconButton Icon="favorite"></MatIconButton>
+            </MatAppBarSection>
+        </MatAppBarRow>
+    </MatAppBar>
+ 
+    <MatAppBarContent>
+        @Body
+    </MatAppBarContent>
+</MatAppBarContainer>
