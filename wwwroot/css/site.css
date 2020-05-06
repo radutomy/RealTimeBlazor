@@ -15,7 +15,7 @@ html, body {
 }
 
 .mat-th {
-    font-weight: bold;
+    font-weight: bold !important;
 }
 
 .mat-td {

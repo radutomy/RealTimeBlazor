@@ -35,14 +35,26 @@ namespace realtimeblazor.Services
 			foreach (var crypto in _portofolio)
 			{
 				var response = await _client.Data.GetSpotPriceAsync($"{crypto.Ticker}-USD");
-				crypto.Price = response.Data.Amount;
-				OnPriceUpdate(crypto);
+
+				// new price!
+				if (crypto.Price != response.Data.Amount)
+				{
+					crypto.Price = response.Data.Amount;
+					OnPriceUpdate(crypto);
+				}
 			}
 		}
 
 		public event Action<ICrypto> OnPriceUpdate = delegate { };
 
-		public IEnumerable<ICrypto> GetList() => _portofolio;
+		// get metadata. normally db call
+		public IEnumerable<ICrypto> GetList() => new List<ICrypto> {
+			new Bitcoin(),
+			new Ethereum(),
+			new Ripple(),
+			new Litecoin(),
+			new BitcoinCash()
+		};
 
 		public void Dispose()
 		{
