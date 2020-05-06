@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using System;
 using System.Timers;
 using realtimeblazor.Data;
+using System.Collections.Generic;
 
 namespace realtimeblazor.Services
 {
@@ -9,70 +10,44 @@ namespace realtimeblazor.Services
 	public class CryptoService : ICryptoService
 	{
 		private readonly Coinbase.CoinbaseClient _client;
+		private readonly IList<ICrypto> _portofolio;
 		private readonly Timer _timer;
 
 		public CryptoService()
 		{
+			// this normall comes from a database
+			_portofolio = new List<ICrypto>() {
+				new Bitcoin(),
+				new Ethereum(),
+				new Ripple(),
+				new Litecoin(),
+				new BitcoinCash()
+			};
+
 			_client = new Coinbase.CoinbaseClient();
 			_timer = new Timer(500);
 			_timer.Elapsed += OnTimedEvent;
 			_timer.Start();
 		}
 
-		public event Action<ICrypto> OnPriceUpdate = delegate { };
-
-		event Action<ICrypto> ICryptoService.OnPriceUpdate
+		private async void OnTimedEvent(object source, ElapsedEventArgs e)
 		{
-			add
+			foreach (var crypto in _portofolio)
 			{
-				throw new NotImplementedException();
-			}
-
-			remove
-			{
-				throw new NotImplementedException();
+				var response = await _client.Data.GetSpotPriceAsync($"{crypto.Ticker}-USD");
+				crypto.Price = response.Data.Amount;
+				OnPriceUpdate(crypto);
 			}
 		}
+
+		public event Action<ICrypto> OnPriceUpdate = delegate { };
+
+		public IEnumerable<ICrypto> GetList() => _portofolio;
 
 		public void Dispose()
 		{
 			_timer.Elapsed -= OnTimedEvent;
 		}
 
-		void IDisposable.Dispose()
-		{
-			throw new NotImplementedException();
-		}
-
-		private async void OnTimedEvent(object source, ElapsedEventArgs e)
-		{
-			var result = await _client.Data.GetSpotPriceAsync("BTC-USD");
-			var btc = new Bitcoin { Price = result.Data.Amount };
-			OnPriceUpdate(btc);
-
-			await Task.Delay(15);
-
-			result = await _client.Data.GetSpotPriceAsync("ETH-USD");
-			var eth = new Ethereum { Price = result.Data.Amount };
-			OnPriceUpdate(eth);
-
-			await Task.Delay(15);
-
-			result = await _client.Data.GetSpotPriceAsync("XRP-USD");
-			var xrp = new Ripple { Price = result.Data.Amount };
-			OnPriceUpdate(xrp);
-
-			await Task.Delay(15);
-
-			result = await _client.Data.GetSpotPriceAsync("LTC-USD");
-			var ltc = new Litecoin { Price = result.Data.Amount };
-			OnPriceUpdate(ltc);
-
-			await Task.Delay(15);
-
-			result = await _client.Data.GetSpotPriceAsync("BCH-USD");
-			var bch = new BitcoinCash { Price = result.Data.Amount };
-			OnPriceUpdate(bch);
-		}
 	}
 }

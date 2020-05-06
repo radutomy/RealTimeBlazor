@@ -4,55 +4,36 @@
 @inject CryptoService CryptoService
 @implements IDisposable
 
-<h1>@_btcPrice</h1>
-<h1>@_ethPrice</h1>
-<h1>@_xrpPrice</h1>
-<h1>@_bchPrice</h1>
-<h1>@_ltcPrice</h1>
+<MatTable Items="@_cryptos" class="mat-elevation-z5" ShowPaging="false" ShowFooter="false">
+    <MatTableHeader>
+        <th style="font-weight: bold">Name</th>
+        <th>Ticker</th>
+        <th>Price</th>
+    </MatTableHeader>
+    <MatTableRow>
+        <td>@context.Name</td>
+        <td>@context.Ticker</td>
+        <MatRipple>@context.Price</MatRipple>
+    </MatTableRow>
+</MatTable>
 
 @code {
 
-	private decimal _btcPrice;
-	private decimal _ethPrice;
-	private decimal _xrpPrice;
-	private decimal _ltcPrice;
-	private decimal _bchPrice;
+    private IEnumerable<ICrypto> _cryptos;
 
-	protected override void OnInitialized()
-	{
-		CryptoService.OnPriceUpdate += PriceUpdate;
-	}
+    protected override void OnInitialized()
+    {
+        CryptoService.OnPriceUpdate += PriceUpdate;
+        _cryptos = CryptoService.GetList();
+    }
 
-	private async void PriceUpdate(ICrypto crypto)
-	{
-		switch (crypto.Ticker)
-		{
-			case Ticker.BTC:
-				_btcPrice = crypto.Price;
-				break;
+    private async void PriceUpdate(ICrypto crypto)
+    {
+        await InvokeAsync(StateHasChanged);
+    }
 
-			case Ticker.ETH:
-				_ethPrice = crypto.Price;
-				break;
-
-			case Ticker.XRP:
-				_xrpPrice = crypto.Price;
-				break;
-
-			case Ticker.BCH:
-				_bchPrice = crypto.Price;
-				break;
-
-			case Ticker.LTC:
-				_ltcPrice = crypto.Price;
-				break;
-		}
-
-		await InvokeAsync(StateHasChanged);
-	}
-
-	public void Dispose()
-	{
-		CryptoService.OnPriceUpdate -= PriceUpdate;
-	}
+    public void Dispose()
+    {
+        CryptoService.OnPriceUpdate -= PriceUpdate;
+    }
 }
