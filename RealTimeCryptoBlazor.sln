@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTimeCryptoBlazor", "RealTimeCryptoBlazor.csproj", "{0630BA9E-ED90-44D5-87C9-17009BE9B5D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "src/RealTimeCryptoBlazor", "src/RealTimeCryptoBlazor.csproj", "{0630BA9E-ED90-44D5-87C9-17009BE9B5D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
