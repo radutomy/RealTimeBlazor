@@ -1,7 +1,7 @@
 using System.Data;
 using System;
 
-namespace realtimeblazor.Data
+namespace RealTimeCryptoBlazor.Data
 {
 	public class Bitcoin : ICrypto
 	{

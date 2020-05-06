@@ -1,17 +1,23 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using RealTimeCryptoBlazor.Services;
 
-namespace realtimeblazor
+namespace RealTimeCryptoBlazor
 {
 	public class Program
 	{
-		public static void Main(string[] args) => CreateHostBuilder(args).Build().Run();
+		public static async Task Main(string[] args)
+		{
+			var builder = WebAssemblyHostBuilder.CreateDefault(args);
+			builder.RootComponents.Add<App>("app");
 
-		public static IHostBuilder CreateHostBuilder(string[] args) =>
-			Host.CreateDefaultBuilder(args)
-				.ConfigureWebHostDefaults(webBuilder =>
-				{
-					webBuilder.UseStartup<Startup>();
-				});
+			builder.Services.AddTransient(ts => new CryptoService());
+			builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
+			await builder.Build().RunAsync();
+		}
 	}
 }

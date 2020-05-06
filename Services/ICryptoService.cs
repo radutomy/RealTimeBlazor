@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using realtimeblazor.Data;
+using RealTimeCryptoBlazor.Data;
 
-namespace realtimeblazor.Services
+namespace RealTimeCryptoBlazor.Services
 {
 	public interface ICryptoService : IDisposable
 	{

@@ -1,4 +1,4 @@
-namespace realtimeblazor.Data
+namespace RealTimeCryptoBlazor.Data
 {
 	public interface ICrypto
 	{

@@ -1,15 +1,16 @@
-using System.Threading.Tasks;
 using System;
 using System.Timers;
-using realtimeblazor.Data;
+using RealTimeCryptoBlazor.Data;
 using System.Collections.Generic;
+using System.Net.Http;
+using Newtonsoft.Json.Linq;
 
-namespace realtimeblazor.Services
+namespace RealTimeCryptoBlazor.Services
 {
-	// shit implementation of a service pattern :D
+	// nasty implementation of the service pattern
 	public class CryptoService : ICryptoService
 	{
-		private readonly Coinbase.CoinbaseClient _client;
+		HttpClient _client;
 		private readonly IList<ICrypto> _portofolio;
 		private readonly Timer _timer;
 
@@ -24,7 +25,7 @@ namespace realtimeblazor.Services
 				new BitcoinCash()
 			};
 
-			_client = new Coinbase.CoinbaseClient();
+			_client = new HttpClient();
 			_timer = new Timer(500);
 			_timer.Elapsed += OnTimedEvent;
 			_timer.Start();
@@ -34,12 +35,14 @@ namespace realtimeblazor.Services
 		{
 			foreach (var crypto in _portofolio)
 			{
-				var response = await _client.Data.GetSpotPriceAsync($"{crypto.Ticker}-USD");
+				var json = await _client.GetStringAsync($"https://api.coinbase.com/v2/prices/{crypto.Ticker}-USD/spot");
+				dynamic response = JObject.Parse(json);
+				decimal amount = response.data.amount;
 
 				// new price!
-				if (crypto.Price != response.Data.Amount)
+				if (crypto.Price != amount)
 				{
-					crypto.Price = response.Data.Amount;
+					crypto.Price = amount;
 					OnPriceUpdate(crypto);
 				}
 			}
@@ -58,8 +61,27 @@ namespace realtimeblazor.Services
 
 		public void Dispose()
 		{
+			_client.Dispose();
+			_timer.Dispose();
 			_timer.Elapsed -= OnTimedEvent;
 		}
 
 	}
+}
+
+
+
+
+
+
+public class Rootobject
+{
+	public Data data { get; set; }
+}
+
+public class Data
+{
+	public string _base { get; set; }
+	public string currency { get; set; }
+	public string amount { get; set; }
 }
