@@ -34,4 +34,7 @@ steps:
     git config --global user.email "radutomy@gmail.com"
     cd $(Build.ArtifactStagingDirectory)/wwwroot
     git init
+    git checkout -b gh-pages
+    git add -A
+    git commit -m "Created build"
   displayName: 'Publish to GitHub Pages'
