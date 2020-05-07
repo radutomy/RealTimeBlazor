@@ -3,9 +3,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using RealTimeCryptoBlazor.Services;
 
-namespace RealTimeCryptoBlazor
+namespace RealTimeBlazor
 {
 	public class Program
 	{
@@ -14,7 +13,6 @@ namespace RealTimeCryptoBlazor
 			var builder = WebAssemblyHostBuilder.CreateDefault(args);
 			builder.RootComponents.Add<App>("app");
 
-			builder.Services.AddTransient(ts => new CryptoService());
 			builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
 			await builder.Build().RunAsync();

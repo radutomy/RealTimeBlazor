@@ -1,44 +1,8 @@
 ﻿@page "/"
-@page "/gh"
+@page "/github"
 
-@using RealTimeCryptoBlazor.Services
-@using RealTimeCryptoBlazor.Data
-@inject CryptoService CryptoService
-@implements IDisposable
+<h1>Hello, world!</h1>
 
-<MatTable Items="@_cryptos" class="mat-elevation-z5" ShowPaging="false">
-    <MatTableHeader>
-        <th class="mat-th">Name</th>
-        <th class="mat-th">Ticker</th>
-        <th class="mat-th">Price</th>
-    </MatTableHeader>
-    <MatTableRow>
-        <td>@context.Name</td>
-        <td>@context.Ticker</td>
-        <td>$@context.Price</td>
-    </MatTableRow>
-</MatTable>
+Whatap!!!
 
-@code {
-
-    private IEnumerable<ICrypto> _cryptos;
-
-    protected override void OnInitialized()
-    {
-        CryptoService.OnPriceUpdate += PriceUpdate;
-        _cryptos = CryptoService.GetList();
-    }
-
-    private async void PriceUpdate(ICrypto newValue)
-    {
-        var toUpdate = _cryptos.FirstOrDefault(c => c.Ticker == newValue.Ticker);
-        toUpdate.Price = newValue.Price;
-
-        await InvokeAsync(StateHasChanged);
-    }
-
-    public void Dispose()
-    {
-        CryptoService.OnPriceUpdate -= PriceUpdate;
-    }
-}
+<SurveyPrompt Title="How is Blazor working for you?" />
