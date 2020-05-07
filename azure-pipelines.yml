@@ -30,12 +30,8 @@ steps:
     artifactName: 'blazor pages'
 
 - script: |
-    git config --global user.name "Radu Tomuleasa"
+    git config --global user.name "radutomy"
     git config --global user.email "radutomy@gmail.com"
     cd $(Build.ArtifactStagingDirectory)/wwwroot
     git init
-    git checkout -b gh-pages
-    git add -A
-    git commit -m "Create build $(Build.BuildId)"
-    git push -f https://github.com/radutomy/RealTimeBlazor.git gh-pages
   displayName: 'Publish to GitHub Pages'
