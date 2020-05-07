@@ -30,8 +30,8 @@ steps:
     artifactName: 'blazor pages'
 
 - script: |
-    git config --global user.name "$NAME"
-    git config --global user.email "$EMAIL"
+    git config --global user.name "Radu Tomuleasa"
+    git config --global user.email "radutomy@gmail.com"
     cd $(Build.ArtifactStagingDirectory)/wwwroot
     git init
     git checkout -b gh-pages
