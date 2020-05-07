@@ -28,3 +28,14 @@ steps:
   inputs:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
     artifactName: 'blazor pages'
+
+- script: |
+    git config --global user.name "$NAME"
+    git config --global user.email "$EMAIL"
+    cd $(Build.ArtifactStagingDirectory)/wwwroot
+    git init
+    git checkout -b gh-pages
+    git add -A
+    git commit -m "Create build $(Build.BuildId)"
+    git push -f
+  displayName: 'Publish to GitHub Pages'
