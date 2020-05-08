@@ -33,6 +33,7 @@ steps:
     git config --global user.name "$GITHUBNAME"
     git config --global user.email "GITHUBEMAIL"
     cd $(Build.ArtifactStagingDirectory)/src/wwwroot
+    touch .nojekyll
     git init
     git checkout -b gh-pages
     git add -A
