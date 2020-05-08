@@ -21,7 +21,7 @@ steps:
   inputs:
     command: 'publish'
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: true
+    zipAfterPublish: false
 
 - task: PublishBuildArtifacts@1
   displayName: "Upload Artifacts"
@@ -30,16 +30,16 @@ steps:
     artifactName: 'dist'
 
 - script: |
-    git config --global user.name "$NAME"
-    git config --global user.email "$EMAIL"
-    printf "$NAME\n"
-    ls -a
+    git config --global user.name "Radu Tomuleasa"
+    git config --global user.email "radutomy@gmail.com"
+    pwd
+    ls
     printf "endls\n"
     cd $(Build.ArtifactStagingDirectory)
     pwd
     printf "endpwd\n"
     git init
-    ls -a
+    ls
 #    git checkout -b gh-pages
 #    git add -A
 #    git commit -m "Created build"
