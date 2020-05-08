@@ -30,17 +30,13 @@ steps:
     artifactName: 'dist'
 
 - script: |
-    git config --global user.name "Radu Tomuleasa"
-    git config --global user.email "radutomy@gmail.com"
+    git config --global user.name "$GITHUBNAME"
+    git config --global user.email "GITHUBEMAIL"
     cd $(Build.ArtifactStagingDirectory)/src/wwwroot
-    printf "$PAT"
     git init
     git checkout -b gh-pages
     git add -A
     git commit -m "Created build"
-    git push -f https://$PAT@github.com/radutomy/RealTimeBlazor.git gh-pages
+    git push -f https://$GitHubPAT@github.com/radutomy/RealTimeBlazor.git gh-pages
   displayName: 'Publish to GitHub Pages'
-  env:
-    PAT: $(GitHubPAT)
-    NAME: $(GitHubName)
-    EMAIL: $(GitHubEmail)
+
