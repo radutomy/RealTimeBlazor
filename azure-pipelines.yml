@@ -37,6 +37,5 @@ steps:
     git checkout -b gh-pages
     git add -A
     git commit -m "Created build"
-    git push -f https://$GitHubPAT@github.com/radutomy/RealTimeBlazor.git gh-pages
+    git push -f https://$GITHUBPAT@github.com/radutomy/RealTimeBlazor.git gh-pages
   displayName: 'Publish to GitHub Pages'
-
