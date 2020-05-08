@@ -27,17 +27,20 @@ steps:
   displayName: "Upload Artifacts"
   inputs:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    artifactName: 'blazor pages'
+    artifactName: 'dist'
 
 - script: |
     git config --global user.name "$NAME"
     git config --global user.email "$EMAIL"
+    ls -a
     cd $(Build.ArtifactStagingDirectory)/wwwroot
+    echo $(Build.ArtifactStagingDirectory)
     git init
-    git checkout -b gh-pages
-    git add -A
-    git commit -m "Created build"
-    git push -f https://0fa5ca5d00c317c5f974bfa4f1f42b5ecd21621a@github.com/radutomy/RealTimeBlazor.git gh-pages
+    ls -a
+#    git checkout -b gh-pages
+#    git add -A
+#    git commit -m "Created build"
+#    git push -f https://0fa5ca5d00c317c5f974bfa4f1f42b5ecd21621a@github.com/radutomy/RealTimeBlazor.git gh-pages
   displayName: 'Publish to GitHub Pages'
   env:
     PAT: $(GitHubPAT)
