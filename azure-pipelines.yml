@@ -32,9 +32,12 @@ steps:
 - script: |
     git config --global user.name "$NAME"
     git config --global user.email "$EMAIL"
+    printf "$NAME\n"
     ls -a
-    cd $(Build.ArtifactStagingDirectory)/wwwroot
-    echo $(Build.ArtifactStagingDirectory)
+    printf "endls\n"
+    cd $(Build.ArtifactStagingDirectory)
+    pwd
+    printf "endpwd\n"
     git init
     ls -a
 #    git checkout -b gh-pages
